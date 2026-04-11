@@ -14,7 +14,92 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          created_at: string
+          customer_name: string
+          customer_phone: string
+          end_date: string | null
+          id: string
+          product_id: string | null
+          start_date: string | null
+          status: Database["public"]["Enums"]["lead_status"]
+        }
+        Insert: {
+          created_at?: string
+          customer_name: string
+          customer_phone: string
+          end_date?: string | null
+          id?: string
+          product_id?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+        }
+        Update: {
+          created_at?: string
+          customer_name?: string
+          customer_phone?: string
+          end_date?: string | null
+          id?: string
+          product_id?: string | null
+          start_date?: string | null
+          status?: Database["public"]["Enums"]["lead_status"]
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_product_id_fkey"
+            columns: ["product_id"]
+            isOneToOne: false
+            referencedRelation: "products"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      products: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          id: string
+          image_url: string | null
+          location: string | null
+          name: string
+          price: number
+          price_label: string | null
+          shop: string | null
+          status: Database["public"]["Enums"]["product_status"]
+          type: Database["public"]["Enums"]["product_type"]
+        }
+        Insert: {
+          category: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          name: string
+          price: number
+          price_label?: string | null
+          shop?: string | null
+          status?: Database["public"]["Enums"]["product_status"]
+          type?: Database["public"]["Enums"]["product_type"]
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          image_url?: string | null
+          location?: string | null
+          name?: string
+          price?: number
+          price_label?: string | null
+          shop?: string | null
+          status?: Database["public"]["Enums"]["product_status"]
+          type?: Database["public"]["Enums"]["product_type"]
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +108,9 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      lead_status: "new" | "contacted" | "rented" | "returned" | "rejected"
+      product_status: "available" | "rented"
+      product_type: "rent" | "buy"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +237,10 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      lead_status: ["new", "contacted", "rented", "returned", "rejected"],
+      product_status: ["available", "rented"],
+      product_type: ["rent", "buy"],
+    },
   },
 } as const
