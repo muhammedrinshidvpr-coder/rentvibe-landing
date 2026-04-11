@@ -1,18 +1,40 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import CategoryFilters from "@/components/CategoryFilters";
 import ProductCard, { type Product } from "@/components/ProductCard";
 import HowItWorks from "@/components/HowItWorks";
 import LeadModal from "@/components/LeadModal";
-import { products } from "@/data/products";
+import { supabase } from "@/integrations/supabase/client";
+
+type ProductTypeFilter = "all" | "rent" | "buy";
 
 const Index = () => {
   const [category, setCategory] = useState("featured");
+  const [typeFilter, setTypeFilter] = useState<ProductTypeFilter>("all");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const filtered = category === "featured" ? products : products.filter((p) => p.category === category);
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await supabase
+        .from("products")
+        .select("*")
+        .eq("status", "available")
+        .order("created_at", { ascending: false });
+      setProducts(data || []);
+      setLoading(false);
+    };
+    fetchProducts();
+  }, []);
+
+  const filtered = products.filter((p) => {
+    const catMatch = category === "featured" || p.category === category;
+    const typeMatch = typeFilter === "all" || p.type === typeFilter;
+    return catMatch && typeMatch;
+  });
 
   const handleAction = (product: Product) => {
     setSelectedProduct(product);
@@ -25,13 +47,40 @@ const Index = () => {
       <HeroSection />
       <CategoryFilters selected={category} onSelect={setCategory} />
 
-      <section className="px-4 pb-16">
-        <div className="container mx-auto">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {filtered.map((product) => (
-              <ProductCard key={product.id} product={product} onAction={handleAction} />
+      {/* Rent/Buy Toggle */}
+      <section className="px-4 pb-4">
+        <div className="container mx-auto flex justify-center">
+          <div className="inline-flex rounded-lg border border-border bg-card p-1 gap-1">
+            {(["all", "rent", "buy"] as ProductTypeFilter[]).map((t) => (
+              <button
+                key={t}
+                onClick={() => setTypeFilter(t)}
+                className={`px-5 py-2 rounded-md text-sm font-medium transition-all capitalize ${
+                  typeFilter === t
+                    ? "gradient-primary text-primary-foreground"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                {t === "all" ? "All" : t === "rent" ? "For Rent" : "For Sale"}
+              </button>
             ))}
           </div>
+        </div>
+      </section>
+
+      <section className="px-4 pb-16">
+        <div className="container mx-auto">
+          {loading ? (
+            <div className="text-center py-12 text-muted-foreground">Loading products...</div>
+          ) : filtered.length === 0 ? (
+            <div className="text-center py-12 text-muted-foreground">No products found.</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+              {filtered.map((product) => (
+                <ProductCard key={product.id} product={product} onAction={handleAction} />
+              ))}
+            </div>
+          )}
         </div>
       </section>
 
