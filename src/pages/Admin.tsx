@@ -42,7 +42,7 @@ const Admin = () => {
       <div className="min-h-screen bg-background flex items-center justify-center px-4">
         <div className="w-full max-w-sm space-y-6 bg-card border border-border rounded-xl p-8">
           <div className="text-center">
-            <h1 className="text-2xl font-bold gradient-text">RentVibe Admin</h1>
+            <h1 className="text-2xl font-bold gradient-text">Rentra Admin</h1>
             <p className="text-muted-foreground text-sm mt-1">Sign in to manage your inventory</p>
           </div>
           <input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)}
@@ -63,7 +63,7 @@ const Admin = () => {
     <div className="min-h-screen bg-background">
       <header className="border-b border-border bg-card">
         <div className="container mx-auto flex items-center justify-between h-14 px-4">
-          <span className="text-lg font-bold gradient-text">RentVibe Admin</span>
+          <span className="text-lg font-bold gradient-text">Rentra Admin</span>
           <button onClick={() => supabase.auth.signOut()} className="flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
             <LogOut size={16} /> Sign Out
           </button>

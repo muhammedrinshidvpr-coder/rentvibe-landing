@@ -1,3 +1,4 @@
+import { Zap } from "lucide-react";
 import { useState, useEffect } from "react";
 
 const Navbar = () => {
@@ -16,7 +17,12 @@ const Navbar = () => {
       }`}
     >
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <span className="text-xl font-bold gradient-text">RentVibe</span>
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 flex items-center justify-center rounded-lg gradient-primary">
+            <Zap className="h-5 w-5 text-primary-foreground" />
+          </div>
+          <span className="text-xl font-bold gradient-text tracking-wide">Rentra</span>
+        </div>
         <div className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
           <a href="#" className="hover:text-foreground transition-colors">Browse</a>
           <a href="#" className="hover:text-foreground transition-colors">How It Works</a>
