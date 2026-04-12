@@ -12,6 +12,7 @@ type ProductTypeFilter = "all" | "rent" | "buy";
 const Index = () => {
   const [category, setCategory] = useState("featured");
   const [typeFilter, setTypeFilter] = useState<ProductTypeFilter>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [products, setProducts] = useState<Product[]>([]);
@@ -33,7 +34,9 @@ const Index = () => {
   const filtered = products.filter((p) => {
     const catMatch = category === "featured" || p.category === category;
     const typeMatch = typeFilter === "all" || p.type === typeFilter;
-    return catMatch && typeMatch;
+    const q = searchQuery.toLowerCase();
+    const searchMatch = !q || p.name.toLowerCase().includes(q) || (p.description || "").toLowerCase().includes(q) || p.category.toLowerCase().includes(q);
+    return catMatch && typeMatch && searchMatch;
   });
 
   const handleAction = (product: Product) => {

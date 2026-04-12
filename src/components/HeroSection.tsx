@@ -1,6 +1,11 @@
 import { Search } from "lucide-react";
 
-const HeroSection = () => {
+interface HeroSectionProps {
+  searchQuery: string;
+  onSearchChange: (query: string) => void;
+}
+
+const HeroSection = ({ searchQuery, onSearchChange }: HeroSectionProps) => {
   return (
     <section className="relative pt-24 sm:pt-32 pb-12 sm:pb-16 px-4">
       <div className="absolute inset-0 bg-gradient-to-b from-indigo-500/5 to-transparent pointer-events-none" />
