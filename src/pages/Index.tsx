@@ -90,7 +90,7 @@ const Index = () => {
       <HowItWorks />
 
       <footer className="border-t border-border py-8 text-center text-sm text-muted-foreground">
-        © 2026 RentVibe. All rights reserved.
+        © 2026 Rentra. All rights reserved.
       </footer>
 
       <LeadModal open={modalOpen} onOpenChange={setModalOpen} product={selectedProduct} />
