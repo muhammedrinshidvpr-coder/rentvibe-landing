@@ -41,7 +41,7 @@ npm run dev
 
 ## Author
 
-Built by [Muhammed Rinshid V P](https://github.com/muhammedrinshidvpr-coder) · [CosmIQ](https://github.com/muhammedrinshidvpr-coder)
+Built by [Muhammed Rinshid V P](https://github.com/rinshidvp) · [CosmIQ](https://github.com/rinshidvp)
 
 ## License
 
